@@ -11,6 +11,8 @@ import gettext
 cwd = os.path.abspath(os.curdir)
 
 
+
+
 def connect():  # this is the sqlite3 connection
     con_str = cwd + '/Data/file.db'
     cnn = sqlite3.connect(con_str)
@@ -40,7 +42,7 @@ def fmtstr(fmt, strr):  # to format some string!!!
         else:
             res.append(c)
     res.append(s[i:])
-    return string.join(res,"")
+    return string.join(res)
 
 
 def titling(name):  # to display the names and surnames in uppercase for 1st letter
@@ -56,7 +58,7 @@ def single_quote_returner(text):  # to display the single quote for the user ex:
 
 
 class MyFrame(wx.Frame):  # this is the parent frame
-    def __init__(self, *args, **kwds):
+    def __init__(self, *args, **kwds   ):
         kwds["style"] = wx.DEFAULT_FRAME_STYLE
         wx.Frame.__init__(self, *args, **kwds)
         self.frame_1_menubar = wx.MenuBar()
@@ -65,12 +67,15 @@ class MyFrame(wx.Frame):  # this is the parent frame
         self.frame_1_menubar.Append(wxglade_tmp_menu, _("Phone Book"))
         wxglade_tmp_menu = wx.Menu()
         wxglade_tmp_menu.Append(2, _("Message"), "", wx.ITEM_NORMAL)
+
         self.frame_1_menubar.Append(wxglade_tmp_menu, _("About"))
         self.SetMenuBar(self.frame_1_menubar)
         self.__set_properties()
         self.__do_layout()
         self.Bind(wx.EVT_MENU, self.open_dialog, id=1)
         self.Bind(wx.EVT_MENU, self.open_dialog1, id=2)
+
+
 
     def __set_properties(self):
         self.SetTitle(_("MyPhoneBook"))
@@ -87,6 +92,14 @@ class MyFrame(wx.Frame):  # this is the parent frame
 
     def open_dialog1(self, event):
         wx.MessageBox("A simple PhoneBook that resumes basic graphical database configuration\n\nEnjoy...!")
+
+    def OnInit(self):
+        image = wx.Image('phonebook.jpg', wx.BITMAP_TYPE_JPEG)
+        self.frame = Frame(image)
+        self.frame.Show()
+        self.SetTopWindow(self.frame)
+        return True
+
 
 
 class MyDialog1(wx.Dialog):  # this is the PhoneBook dialog box...
@@ -216,7 +229,7 @@ class MyDialog1(wx.Dialog):  # this is the PhoneBook dialog box...
 
     def clk_update(self, event):
         try:
-            num = fmtstr('##-######', str(self.txtNUMBER.Value))
+            num =  str(self.txtNUMBER.Value)
             the_name = single_quote_remover(str(self.txtNAME.Value))
             the_surname = single_quote_remover(str(self.txtSURNAME.Value))
             name = titling(the_name)
@@ -232,7 +245,7 @@ class MyDialog1(wx.Dialog):  # this is the PhoneBook dialog box...
             self.refresh_data()
             cnn.close()
             self.clear_grid()
-            self.button_6.Enabled = False
+            self.button_6.Enabled = True
             self.button_5.Enabled = True
             self.txtNAME.SetFocus()
             event.Skip()
