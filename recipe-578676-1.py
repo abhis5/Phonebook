@@ -57,41 +57,58 @@ def single_quote_returner(text):  # to display the single quote for the user ex:
     return text.replace("/", "'")
 
 
+
+
 class MyFrame(wx.Frame):  # this is the parent frame
     def __init__(self, *args, **kwds   ):
         kwds["style"] = wx.DEFAULT_FRAME_STYLE
         wx.Frame.__init__(self, *args, **kwds)
         self.frame_1_menubar = wx.MenuBar()
+
+        panel = wx.Panel(self)
+
         wxglade_tmp_menu = wx.Menu()
         wxglade_tmp_menu.Append(1, _("Index"), "", wx.ITEM_NORMAL)
         self.frame_1_menubar.Append(wxglade_tmp_menu, _("Phone Book"))
+
         wxglade_tmp_menu = wx.Menu()
         wxglade_tmp_menu.Append(2, _("Message"), "", wx.ITEM_NORMAL)
-
         self.frame_1_menubar.Append(wxglade_tmp_menu, _("About"))
+
+        wxglade_tmp_menu = wx.Menu()
+        wxglade_tmp_menu.Append(3, _("About Me"), "", wx.ITEM_NORMAL)
+        wxglade_tmp_menu.Append(3, _("About Me more"), "", wx.ITEM_NORMAL)
+        self.frame_1_menubar.Append(wxglade_tmp_menu, _("Abhishek"))
+
         self.SetMenuBar(self.frame_1_menubar)
         self.__set_properties()
         self.__do_layout()
-        self.Bind(wx.EVT_MENU, self.open_dialog, id=1)
-        self.Bind(wx.EVT_MENU, self.open_dialog1, id=2)
+       # self.Bind(wx.EVT_MENU, self.open_dialog, id=1)
+        self.Bind(wx.EVT_MENU, self.open_panel1, id=1)
+        self.Bind(wx.EVT_MENU, self.open_dialog2, id=3)
 
 
 
     def __set_properties(self):
         self.SetTitle(_("MyPhoneBook"))
-        self.SetSize((555, 444))
-        self.SetBackgroundColour(wx.Colour(255, 255, 255))
+        self.SetSize((700, 444))
+        #self.SetSizerAndFit(self, deleteOld=True)
+        self.SetBackgroundColour(wx.Colour(125, 249, 255))
 
     def __do_layout(self):
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
         self.SetSizer(sizer_1)
         self.Layout()
 
-    def open_dialog(self, event):
-        MyDialog1(self).Show()
+    def open_panel1(panel, event):
+        MyFrame1(panel).Show()
 
     def open_dialog1(self, event):
         wx.MessageBox("A simple PhoneBook that resumes basic graphical database configuration\n\nEnjoy...!")
+
+    def open_dialog2(self, event):
+        wx.MessageBox("hello Moto")
+
 
     def OnInit(self):
         image = wx.Image('phonebook.jpg', wx.BITMAP_TYPE_JPEG)
@@ -102,10 +119,30 @@ class MyFrame(wx.Frame):  # this is the parent frame
 
 
 
-class MyDialog1(wx.Dialog):  # this is the PhoneBook dialog box...
+class MyFrame1(wx.Frame):  # this is the PhoneBook dialog box...
     def __init__(self, *args, **kwds):
-        kwds["style"] = wx.DEFAULT_DIALOG_STYLE
+        kwds["style"] = wx.DEFAULT_FRAME_STYLE
         wx.Dialog.__init__(self, *args, **kwds)
+
+        self.frame_1_menubar = wx.MenuBar()
+
+        wxglade_tmp_menu = wx.Menu()
+        wxglade_tmp_menu.Append(1, _("Index"), "", wx.ITEM_NORMAL)
+        self.frame_1_menubar.Append(wxglade_tmp_menu, _("Phone Book"))
+
+        wxglade_tmp_menu = wx.Menu()
+        wxglade_tmp_menu.Append(2, _("Message"), "", wx.ITEM_NORMAL)
+        self.frame_1_menubar.Append(wxglade_tmp_menu, _("About"))
+
+        wxglade_tmp_menu = wx.Menu()
+        wxglade_tmp_menu.Append(3, _("About Me"), "", wx.ITEM_NORMAL)
+        wxglade_tmp_menu.Append(3, _("About Me more"), "", wx.ITEM_NORMAL)
+        self.frame_1_menubar.Append(wxglade_tmp_menu, _("Abhishek"))
+
+        self.SetMenuBar(self.frame_1_menubar)
+        #self.Bind(wx.EVT_MENU, self.open_panel1, id=1)
+        self.Bind(wx.EVT_MENU, self.open_dialog2, id=3)
+
         self.label_10 = wx.StaticText(self, -1, _(" ID"))
         self.txtID = wx.TextCtrl(self, -1, "")
         self.label_11 = wx.StaticText(self, -1, _(" Name"))
@@ -147,8 +184,8 @@ class MyDialog1(wx.Dialog):  # this is the PhoneBook dialog box...
                 self.grid_1.SetCellValue(i, j, str(cell[j]))
 
     def __set_properties(self):
-        self.SetTitle(_("PyPhone"))
-        self.SetSize((600, 550))
+        self.SetTitle(_("Phonebook"))
+        self.SetSize((627,650))
         self.txtID.SetMinSize((120, 27))
         self.txtNAME.SetMinSize((120, 27))
         self.txtSURNAME.SetMinSize((120, 27))
@@ -338,6 +375,8 @@ class MyDialog1(wx.Dialog):  # this is the PhoneBook dialog box...
             self.txtNAME.SetFocus()
             event.Skip()
 
+    def open_dialog2(self, event):
+        wx.MessageBox("hello Moto")
 
 if __name__ == "__main__":
     gettext.install("app")
@@ -345,6 +384,7 @@ if __name__ == "__main__":
     # wx.App(False)
     wx.InitAllImageHandlers()
     frame_1 = MyFrame(None, wx.ID_ANY, "")
-    app.SetTopWindow(frame_1)
-    frame_1.Show()
+    frame_2 = MyFrame1(None,wx.ID_ANY,"")
+    app.SetTopWindow(frame_2)
+    frame_2.Show()
     app.MainLoop()
