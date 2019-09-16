@@ -185,7 +185,8 @@ class MyFrame1(wx.Frame):  # this is the PhoneBook dialog box...
 
     def __set_properties(self):
         self.SetTitle(_("Phonebook"))
-        self.SetSize((627,650))
+        #self.SetSize((1440,850))
+        self.Maximize(True)
         self.txtID.SetMinSize((120, 27))
         self.txtNAME.SetMinSize((120, 27))
         self.txtSURNAME.SetMinSize((120, 27))
